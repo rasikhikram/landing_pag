@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install
+  build:
+    commands:
+      - npm run generate
+  post_build:
+    commands:
+      - aws s3 sync ./dist s3://sokratics3 --acl public-read
+      - aws cloudfront create-invalidation --distribution-id E35U6JZOAQX1O7 --paths "/*"
